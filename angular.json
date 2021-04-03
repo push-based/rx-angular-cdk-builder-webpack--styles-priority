@@ -1,0 +1,146 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "rx-angular-cdk-builder-webpack-styles-slots": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "",
+      "sourceRoot": "src",
+      "architect": {
+        "build": {
+          "builder": "@rx-angular/builder-webpack:browser",
+          "options": {
+            "outputPath": "dist/rx-angular-cdk-builder-webpack-styles-slots",
+            "index": "src/index.html",
+            "main": "src/main.ts",
+            "polyfills": "src/polyfills.ts",
+            "tsConfig": "tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
+            "styles": [
+              "src/styles/styles.scss"
+            ],
+            "stylesSlots": {
+              "critical": [
+                "src/critical.scss"
+              ],
+              "stylesheet": [
+                "normalize.css"
+              ],
+              "preload": [
+                "src/third-party.scss",
+                "src/styles/styles.scss"
+              ],
+              "prefetch": [
+                "src/app/lazy-loaded-module/lazy-loaded-module.scss"
+              ]
+            },
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@rx-angular/builder-webpack:dev-server",
+          "options": {
+            "browserTarget": "rx-angular-cdk-builder-webpack-styles-slots:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "rx-angular-cdk-builder-webpack-styles-slots:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "rx-angular-cdk-builder-webpack-styles-slots:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "src/test.ts",
+            "polyfills": "src/polyfills.ts",
+            "tsConfig": "tsconfig.spec.json",
+            "karmaConfig": "karma.conf.js",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
+            "styles": [
+              "src/styles.scss"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "tsconfig.app.json",
+              "tsconfig.spec.json",
+              "e2e/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "e2e/protractor.conf.js",
+            "devServerTarget": "rx-angular-cdk-builder-webpack-styles-slots:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "rx-angular-cdk-builder-webpack-styles-slots:serve:production"
+            }
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "rx-angular-cdk-builder-webpack-styles-slots",
+  "cli": {
+    "analytics": false
+  }
+}
