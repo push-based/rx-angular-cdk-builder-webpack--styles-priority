@@ -1,0 +1,53 @@
+{
+  "title": "RxAngular template slots for styles prioritisation",
+  "id": "BuildCustomWebpackBrowserSchema",
+  "description": "Browser target options",
+  "properties": {
+    "stylesSlots": {
+      "type": "object",
+      "description": "Prioritized slots for styles placement in index.html",
+      "anyOf": [
+        {
+          "properties": {
+            "critical": {
+              "type": "array",
+              "description": "The render critical inlined css of the application",
+              "default": [],
+              "items": {
+                "type": "string",
+                "description": "Path to css file"
+              }
+            },
+            "stylesheet": {
+              "type": "array",
+              "description": "@TODO: ATM this is angulars default (render-blocking) way. Should alert if no above the fold is used?",
+              "default": [],
+              "items": {
+                "type": "string",
+                "description": "Path to css file"
+              }
+            },
+            "preload": {
+              "type": "array",
+              "description": "The css which has high-confidence to be used in the current page",
+              "default": [],
+              "items": {
+                "type": "string",
+                "description": "Path to css file"
+              }
+            },
+            "prefetch": {
+              "type": "array",
+              "description": "The css which is likely to be used for future navigations across multiple navigation boundaries",
+              "default": [],
+              "items": {
+                "type": "string",
+                "description": "Path to css file"
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -11,6 +11,12 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "target": "es2015",
+    "paths": {
+      "priority-slots-builder-webpack": [
+        "dist/priority-slots-builder-webpack/priority-slots-builder-webpack",
+        "dist/priority-slots-builder-webpack"
+      ]
+    },
     "module": "es2020",
     "lib": [
       "es2018",

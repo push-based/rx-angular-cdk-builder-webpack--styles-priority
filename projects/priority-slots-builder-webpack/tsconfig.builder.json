@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "rootDir": ".",
+    "outDir": "../../out-tsc",
+    "moduleResolution": "node",
+    "module": "commonjs",
+    "target": "es6",
+    "strict": true,
+    "allowSyntheticDefaultImports": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "forceConsistentCasingInFileNames": true,
+    "strictPropertyInitialization": false,
+    "strictNullChecks": false,
+    "pretty": true,
+    "sourceMap": true,
+    "declaration": true,
+    "stripInternal": true,
+    "skipLibCheck": true,
+    "declarationMap": true,
+    "inlineSources": true,
+    "types": ["node"],
+    "lib": [
+      "dom",
+      "es2015",
+      "es2016",
+      "es2017"
+    ]
+  },
+  "exclude": ["./**/builders/test-setup.ts", "**/*.spec.ts"],
+  "include": ["./**/builders/**/*.ts"]
+}
