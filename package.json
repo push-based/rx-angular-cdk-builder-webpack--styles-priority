@@ -4,7 +4,9 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build-builder": "yarn build-builder:ts && yarn build-builder:json",
+    "build-builder:ts": "yarn tsc -p ./projects/priority-slots-builder-webpack/tsconfig.builder.json",
+    "build-builder:json": "cpx projects/priority-slots-builder-webpack/package.json dist/projects/builder-webpack && cpx projects/priority-slots-builder-webpack/builders/builders.json dist/projects/builder-webpack/builders && cpx projects/priority-slots-builder-webpack/builders/**/schema.json dist/projects/builder-webpack/builders",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -20,9 +22,12 @@
     "@angular/platform-browser-dynamic": "~11.2.8",
     "@angular/router": "~11.2.8",
     "@rx-angular/cdk": "^1.0.0-alpha.7",
+    "@types/jsdom": "^16.2.10",
+    "cpx": "^1.5.0",
     "jsdom": "^16.5.2",
     "normalize.css": "^8.0.1",
     "rxjs": "~6.6.0",
+    "tsc": "^1.20150623.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"
   },

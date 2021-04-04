@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "rootDir": ".",
+
     "outDir": "../../out-tsc",
     "moduleResolution": "node",
     "module": "commonjs",

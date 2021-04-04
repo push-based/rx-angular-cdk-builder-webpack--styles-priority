@@ -1,7 +1,6 @@
 import { BuilderContext } from '@angular-devkit/architect';
 import { JsonObject } from '@angular-devkit/core';
 import { ExecutionTransformer } from '@angular-devkit/build-angular';
-import { Stats } from 'webpack';
 import { WebpackLoggingCallback } from '@angular-devkit/build-webpack';
 import { IndexHtmlTransform } from '@angular-devkit/build-angular/src/utils/index-file/index-html-generator';
 import { indexHtmlTransformFactory } from './index-html-transform.factory';
@@ -17,7 +16,7 @@ export function getTransforms(
   indexHtml?: IndexHtmlTransform;
 } {
   return {
-    logging: (stats: Stats, config: any) => {
+    logging: (stats: any, config: any) => {
       console.log('logging: ', stats, config);
     },
     webpackConfiguration: webpackConfigurationTransformFactory(

@@ -1,8 +1,9 @@
-import { BuilderOutputLike, createBuilder } from '@angular-devkit/architect';
 import {
-  BrowserBuilderOptions,
-  executeBrowserBuilder,
-} from '@angular-devkit/build-angular';
+  BuilderContext,
+  BuilderOutputLike,
+  createBuilder
+} from '@angular-devkit/architect';
+import { executeBrowserBuilder } from '@angular-devkit/build-angular';
 import { JsonObject } from '@angular-devkit/core';
 import { Observable } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
@@ -11,21 +12,23 @@ import {
   CustomWebpackBuilderOptions,
   getTransforms,
 } from '../../custom-builder';
+import { Schema as BrowserBuilderSchema } from '@angular-devkit/build-angular/src/browser/schema';
 
-export type CustomWebpackBrowserSchema = BrowserBuilderOptions & CustomWebpackBuilderOptions;
+export type CustomWebpackBrowserSchema = BrowserBuilderSchema &
+  CustomWebpackBuilderOptions;
 
 export function buildCustomWebpackBrowser(
   options: CustomWebpackBrowserSchema,
-  context: any
+  context: any //BuilderContext
 ): Observable<BuilderOutputLike> {
   return mergeOptions(options, context).pipe(
-    switchMap((customWebpackOptions) =>
-      executeBrowserBuilder(
+    switchMap((customWebpackOptions) => {
+      return executeBrowserBuilder(
         customWebpackOptions,
         context,
         getTransforms(customWebpackOptions, context)
       )
-    )
+    })
   );
 }
 
