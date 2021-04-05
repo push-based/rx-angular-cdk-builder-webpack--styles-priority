@@ -1,0 +1,11 @@
+{
+  "title": "RxAngular template slots for styles prioritisation",
+  "id": "BuildCustomWebpackBrowserSchema",
+  "description": "Dev Server target options",
+  "properties": {
+    "stylesSlots": {
+      "type": "object",
+      "description": "Prioritized slots for styles placement in index.html"
+    }
+  }
+}

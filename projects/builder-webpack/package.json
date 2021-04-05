@@ -1,0 +1,43 @@
+{
+  "name": "@rx-angular/builder",
+  "version": "1.0.0-alpha.0",
+  "description": "Builder for index.html slots",
+  "main": "index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=10.12.0",
+    "npm": ">=5.3.0",
+    "yarn": ">=1.9.2"
+  },
+  "author": "Michael Hladky <michael@hladky.at>",
+  "homepage": "https://rx-angular.io/",
+  "keywords": [
+    "angular",
+    "rxjs",
+    "performance",
+    "rendering",
+    "lazy-loading",
+    "builder",
+    "custom builder"
+  ],
+  "contributors": [
+    {
+      "name": "Michael Hladky",
+      "email": "michael@hladky.at"
+    }
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rx-angular/rx-angular.git"
+  },
+  "peerDependencies": {
+    "@angular-devkit/architect": ">10.1.1"
+  },
+  "dependencies": {
+    "tslib": "^2.0.0"
+  },
+  "builders": "./builders/builders.json"
+}

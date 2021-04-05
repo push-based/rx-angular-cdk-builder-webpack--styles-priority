@@ -1,0 +1,1 @@
+{"version":3,"file":"model.js","sourceRoot":"","sources":["../../../../libs/builder-webpack/custom-builder/model.ts"],"names":[],"mappings":"","sourcesContent":["import { OptionsStyleSlots } from '../styles-slots';\r\nimport { JsonObject } from '@angular-devkit/core';\r\n\r\nexport type CustomWebpackBuilderOptions = JsonObject & OptionsStyleSlots;\r\n"]}

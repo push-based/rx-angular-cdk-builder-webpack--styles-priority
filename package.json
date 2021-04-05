@@ -5,8 +5,9 @@
     "ng": "ng",
     "start": "ng serve",
     "build-builder": "yarn build-builder:ts && yarn build-builder:json",
-    "build-builder:ts": "ng build --project priority-slots-builder-webpack",
+    "build-builder:ts": "tsc -p projects/priority-slots-builder-webpack",
     "build-builder:json": "cpx projects/priority-slots-builder-webpack/package.json dist/projects/builder-webpack && cpx projects/priority-slots-builder-webpack/builders/builders.json dist/projects/builder-webpack/builders && cpx projects/priority-slots-builder-webpack/builders/**/schema.json dist/projects/builder-webpack/builders",
+    "link-builder": "cpx dist/projects/priority-slots-builder-webpack/package.json node_modules/@rx-angular/builder-webpack",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

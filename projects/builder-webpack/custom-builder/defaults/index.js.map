@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","sourceRoot":"","sources":["../../../../../libs/builder-webpack/custom-builder/defaults/index.ts"],"names":[],"mappings":";;;AAAA,+EAAyE;AAAjE,yIAAA,yBAAyB,OAAA","sourcesContent":["export {indexHtmlTransformFactory} from './index-html-transform.factory';\r\n"]}
