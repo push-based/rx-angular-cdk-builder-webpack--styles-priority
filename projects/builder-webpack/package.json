@@ -15,9 +15,11 @@
   "homepage": "https://rx-angular.io/",
   "keywords": [
     "angular",
-    "rxjs",
+    "css",
     "performance",
     "rendering",
+    "preload",
+    "prefetch",
     "lazy-loading",
     "builder",
     "custom builder"
@@ -34,10 +36,14 @@
     "url": "https://github.com/rx-angular/rx-angular.git"
   },
   "peerDependencies": {
-    "@angular-devkit/architect": ">10.1.1"
+    "@angular-devkit/architect": ">10.1.1",
+    "rxjs": "~6.6.0"
   },
   "dependencies": {
     "tslib": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/webpack": "^5.28.0"
   },
   "builders": "./builders/builders.json"
 }
