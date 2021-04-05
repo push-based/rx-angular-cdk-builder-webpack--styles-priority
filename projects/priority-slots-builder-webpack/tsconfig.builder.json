@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-
+    "baseUrl": ".",
     "outDir": "../../out-tsc",
     "moduleResolution": "node",
     "module": "commonjs",
@@ -19,12 +19,7 @@
     "declarationMap": true,
     "inlineSources": true,
     "types": ["node"],
-    "lib": [
-      "dom",
-      "es2015",
-      "es2016",
-      "es2017"
-    ]
+    "lib": ["dom", "es2015", "es2016", "es2017"]
   },
   "exclude": ["./**/builders/test-setup.ts", "**/*.spec.ts"],
   "include": ["./**/builders/**/*.ts"]
