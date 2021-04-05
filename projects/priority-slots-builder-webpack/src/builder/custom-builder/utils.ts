@@ -6,6 +6,7 @@ import {
 import { JsonObject } from '@angular/compiler-cli/ngcc/src/packages/entry_point';
 import { map, switchMap } from 'rxjs/operators';
 import { hasOwnProperty } from 'tslint/lib/utils';
+import * as fs from 'fs';
 import { existsSync, readFileSync } from 'fs';
 
 export function fromTargetOptions(
@@ -27,7 +28,8 @@ export function mergeOptions<T>(
       - browserTarget: options
       - then overwriting values from the Angular CLI overrides object built from command line arguments
 
-      This is then validated against the schema of the builder, and only then, if valid, the context will be created and the builder itself will execute.
+      This is then validated against the schema of the builder, and only then,
+      if valid, the context will be created and the builder itself will execute.
       */
   const optionsSourceOverriddenByConsole$ = of(options);
   const optionsRemote$ = optionsSourceOverriddenByConsole$.pipe(
@@ -142,5 +144,9 @@ export function coercePromise<T>(p: Promise<T> | T): Promise<T> {
     return (p as unknown) as Promise<T>;
   }
   return Promise.resolve(p) as Promise<T>;
+}
+
+export function readDir(dir: string): string[] {
+  return fs.readdirSync(dir);
 }
 

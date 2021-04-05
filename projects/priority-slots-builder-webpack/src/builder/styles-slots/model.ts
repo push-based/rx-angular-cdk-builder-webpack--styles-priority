@@ -1,4 +1,5 @@
 import { JsonObject } from '@angular-devkit/core';
+import { Configuration } from 'webpack';
 
 export interface StyleSlots {
   critical: string[],
@@ -15,5 +16,5 @@ export interface OptionsStyleSlots {
 }
 
 export type IndexHtmlTransformOption = JsonObject & OptionsStyleSlots
-export type WebpackConfigTransformOption = JsonObject & OptionsStyleSlots
+export type WebpackConfigTransformOption = Configuration & OptionsStyleSlots
 

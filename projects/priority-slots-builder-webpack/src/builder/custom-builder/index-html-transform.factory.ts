@@ -8,13 +8,16 @@ export const indexHtmlTransformFactory: (
   options: CustomWebpackBuilderOptions,
   context: BuilderContext
 ) => IndexHtmlTransform = (options, context) => {
-  const { target } = context;
-
-  const defaultTransform = angularCustomIndexHtmlTransformFactory(options, context);
-  const stylesSlotsTransform = stylesSlotsIndexHtmlTransformFactory(options, context);
+  const defaultTransform = angularCustomIndexHtmlTransformFactory(
+    options,
+    context
+  );
+  const stylesSlotsTransform = stylesSlotsIndexHtmlTransformFactory(
+    options,
+    context
+  );
 
   return (indexHtml: string) => {
-    return defaultTransform(indexHtml)
-      .then((r) => stylesSlotsTransform(r));
+    return defaultTransform(indexHtml).then((r) => stylesSlotsTransform(r));
   };
 };

@@ -27,21 +27,25 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles/styles.scss"
+              "src/styles/styles.scss",
+              "src/styles/critical.scss",
+              "src/styles/stylesheet.scss",
+              "src/styles/preload.scss",
+              "src/styles/prefetch.scss"
             ],
             "stylesSlots": {
               "critical": [
                 "src/styles/critical.scss"
               ],
               "stylesheet": [
-                "normalize.css"
+                "src/styles/styles.scss",
+                "src/styles/stylesheet.scss"
               ],
               "preload": [
-                "src/styles/third-party.scss",
-                "src/styles/styles.scss"
+                "src/styles/preload.scss"
               ],
               "prefetch": [
-                "src/app/feature-a/feature-a.scss"
+                "src/styles/prefetch.scss"
               ]
             },
             "scripts": []

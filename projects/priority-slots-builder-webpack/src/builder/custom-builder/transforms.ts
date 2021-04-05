@@ -1,5 +1,5 @@
 import { BuilderContext } from '@angular-devkit/architect';
-import { JsonObject } from '@angular-devkit/core';
+import { Configuration } from 'webpack';
 import { ExecutionTransformer } from '@angular-devkit/build-angular';
 import { WebpackLoggingCallback } from '@angular-devkit/build-webpack';
 import { IndexHtmlTransform } from '@angular-devkit/build-angular/src/utils/index-file/index-html-generator';
@@ -11,14 +11,11 @@ export function getTransforms(
   options: CustomWebpackBuilderOptions,
   context: BuilderContext
 ): {
-  webpackConfiguration?: ExecutionTransformer<any>;
+  webpackConfiguration?: ExecutionTransformer<Configuration>;
   logging?: WebpackLoggingCallback;
   indexHtml?: IndexHtmlTransform;
 } {
   return {
-    logging: (stats: any, config: any) => {
-      console.log('logging: ', stats, config);
-    },
     webpackConfiguration: webpackConfigurationTransformFactory(
       options,
       context

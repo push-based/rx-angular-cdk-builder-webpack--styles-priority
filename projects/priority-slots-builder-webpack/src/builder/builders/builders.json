@@ -15,11 +15,6 @@
       "implementation": "./dev-server",
       "schema": "./dev-server/schema.json",
       "description": "Dev server with priority slots for styles"
-    },
-    "karma": {
-      "implementation": "./karma",
-      "schema": "./karma/schema.json",
-      "description": "Karma server with priority slots for styles"
     }
   }
 }

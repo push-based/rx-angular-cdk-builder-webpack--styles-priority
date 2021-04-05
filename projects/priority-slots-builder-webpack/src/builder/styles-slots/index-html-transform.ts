@@ -1,7 +1,13 @@
 import * as jsdom from 'jsdom';
-import { cssLoadingPriorities, OptionsStyleSlots, StyleSlots } from './model';
+import {
+  cssLoadingPriorities,
+  IndexHtmlTransformOption,
+  StyleSlots,
+} from './model';
 import { resolveFileContent } from '../custom-builder/utils';
-import { JsonObject } from '@angular-devkit/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 const { JSDOM } = jsdom;
 
 const criticalSlotElement = (document: Document): Element => {
@@ -141,42 +147,65 @@ const prefetchSlotElement = (document: Document): Element => {
  * @returns new indexHtml string
  */
 export function indexHtmlTransform(
-  options: JsonObject & OptionsStyleSlots,
+  options$: Observable<IndexHtmlTransformOption>,
   indexHtmlContent: string
 ): Promise<string> {
-  const { critical, stylesheet, preload, prefetch } = options.stylesSlots;
-  const dom = new JSDOM(indexHtmlContent);
-  const { document } = dom.window;
+  return options$
+    .pipe(
+      map((options) => {
+        const { stylesSlots } = options;
+        const { critical, stylesheet, preload, prefetch } = stylesSlots;
+        const dom = new JSDOM(indexHtmlContent);
+        const { document } = dom.window;
 
-  if (critical) {
-    getLastSlotElement('critical', criticalSlotElement, document)
-      .prepend(htmlToElement(getStylesTags(critical, 'critical')));
-  }
+        const { extractCss } = options;
 
-    if (stylesheet) {
-      getLastSlotElement('stylesheet', stylesheetSlotElement, document)
-        .appendChild(htmlToElement(getStylesTags(stylesheet, 'stylesheet')));
-    }
+        // remove angular placed main styles
+        document.querySelector(`link[href^="styles."]`).remove()
 
-    if (preload) {
-      getLastSlotElement('preload', preloadSlotElement, document)
-        .appendChild(htmlToElement(getStylesTags(preload, 'preload')));
-    }
+        if (critical) {
+          getLastSlotElement('critical', criticalSlotElement, document).prepend(
+            htmlToElement(getStylesTags(critical, 'critical'))
+          );
+        }
 
-    if (prefetch) {
-      getLastSlotElement('prefetch', prefetchSlotElement, document)
-        .appendChild(htmlToElement(getStylesTags(prefetch, 'prefetch')));
-    }
-  /* */
-  return Promise.resolve(dom.serialize());
+        if (stylesheet) {
+          getLastSlotElement(
+            'stylesheet',
+            stylesheetSlotElement,
+            document
+          ).appendChild(htmlToElement(getStylesTags(stylesheet, 'stylesheet')));
+        }
 
-  function htmlToElement(html: string): Element {
-    const template = document.createElement('template');
-    html = html.trim(); // Never return a text node of whitespace as the result
-    template.innerHTML = html;
-    return template.content.firstChild as Element;
-  }
+        if (preload) {
+          getLastSlotElement(
+            'preload',
+            preloadSlotElement,
+            document
+          ).appendChild(htmlToElement(getStylesTags(preload, 'preload')));
+        }
 
+        if (prefetch) {
+          getLastSlotElement(
+            'prefetch',
+            prefetchSlotElement,
+            document
+          ).appendChild(htmlToElement(getStylesTags(prefetch, 'prefetch')));
+        }
+
+        return dom.serialize();
+
+        // ===============
+
+        function htmlToElement(html: string): Element {
+          const template = document.createElement('template');
+          html = html.trim(); // Never return a text node of whitespace as the result
+          template.innerHTML = html;
+          return template.content.firstChild as Element;
+        }
+      })
+    )
+    .toPromise();
 }
 
 function getLastSlotElement(
@@ -219,15 +248,14 @@ function getStylesTags(
     slotName: Omit<cssLoadingPriorities, 'critical'>,
     url: string
   ): string {
+    const asAttribute = url.split('.').pop() === 'css' ? 'as="style"' : 'as="script"';
     return `<link rel="${slotName}" data-stylseSlot="${slotName}" href="${url}" ${
-      slotName !== 'stylesheet' ? 'as="style"' : ''
+      slotName !== 'stylesheet' ? asAttribute : ''
     }/>`;
   }
 
   function style(slotName: 'critical', url: string): string {
-    const inlineStylesContent = resolveFileContent(url);
+    const inlineStylesContent = '.todo-inline-styles-here {}'; //resolveFileContent(url);
     return `<style data-stylseSlot="${slotName}">${inlineStylesContent}</style>`;
   }
 }
-
-
