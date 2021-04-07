@@ -8,6 +8,7 @@ import { Component } from '@angular/core';
     <li>
       <a routerLink="feature-a">Feature A (router level lazy loading)</a>
     </li>
+    <li><a routerLink="lazy-css-demo">Lazy CSS demo</a></li>
   </ul>
   <router-outlet></router-outlet>
   `,

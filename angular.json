@@ -14,7 +14,7 @@
       "sourceRoot": "src",
       "architect": {
         "build": {
-          "builder": "@rx-angular/builder-webpack:browser",
+          "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "dist/rx-angular-cdk-builder-webpack-styles-slots",
             "index": "src/index.html",
@@ -27,27 +27,22 @@
               "src/assets"
             ],
             "styles": [
+              {
+                "input": "src/app/lazy-css-demo/lazy-markdown-styles.scss",
+                "bundleName": "lazy-markdown-styles",
+                "inject": false
+              },
+              {
+                "input": "src/app/lazy-css-demo/lazy-prefetch-markdown-styles.scss",
+                "bundleName": "lazy-prefetch-markdown-styles",
+                "inject": false
+              },
               "src/styles/styles.scss",
               "src/styles/critical.scss",
               "src/styles/stylesheet.scss",
               "src/styles/preload.scss",
               "src/styles/prefetch.scss"
             ],
-            "stylesSlots": {
-              "critical": [
-                "src/styles/critical.scss"
-              ],
-              "stylesheet": [
-                "src/styles/styles.scss",
-                "src/styles/stylesheet.scss"
-              ],
-              "preload": [
-                "src/styles/preload.scss"
-              ],
-              "prefetch": [
-                "src/styles/prefetch.scss"
-              ]
-            },
             "scripts": []
           },
           "configurations": {
@@ -82,7 +77,7 @@
           }
         },
         "serve": {
-          "builder": "@rx-angular/builder-webpack:dev-server",
+          "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "browserTarget": "rx-angular-cdk-builder-webpack-styles-slots:build"
           },
