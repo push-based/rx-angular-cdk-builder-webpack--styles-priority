@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { LazyLinkService } from './lazy-css-demo/lazy-link.service';
 
 @Component({
   selector: 'app-root',
@@ -17,5 +18,7 @@ import { Component } from '@angular/core';
   `]
 })
 export class AppComponent {
-  title = 'rx-angular-cdk-builder-webpack-styles-slots';
+  constructor(lazyLink: LazyLinkService) {
+    lazyLink.registerPrefetchLinks();
+  }
 }

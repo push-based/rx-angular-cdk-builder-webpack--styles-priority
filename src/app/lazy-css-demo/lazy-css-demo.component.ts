@@ -10,6 +10,7 @@ import {Component} from '@angular/core';
     <div class="demos-container">
       <div class="demo-wrapper"><p>GLOBAL</p><global-styles-demo></global-styles-demo></div>
       <div class="demo-wrapper"><p>LAZY (prefetch & append)</p><lazy-styles-demo position="append" strategy="prefetch"></lazy-styles-demo></div>
+      <div class="demo-wrapper"><p>LAZY LINK (prefetch & append)</p><lazy-link-styles-demo></lazy-link-styles-demo></div>
       <div class="demo-wrapper"><p>LAZY (append)</p><lazy-styles-demo position="append"></lazy-styles-demo></div>
     </div>
   `,
