@@ -1,4 +1,4 @@
-export {CustomWebpackBuilderOptions} from './model';
+export {CustomWebpackBuilderOptions, WebpackBuilderSchema, WebpackEntry, WebpackEntryConfig} from './model';
 export {getTransforms} from './transforms';
 
 export function setupStylesBundles(

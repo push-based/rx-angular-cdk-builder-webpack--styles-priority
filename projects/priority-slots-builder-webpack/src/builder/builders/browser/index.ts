@@ -1,27 +1,33 @@
-import { BuilderOutputLike, createBuilder } from '@angular-devkit/architect';
+import {
+  BuilderContext,
+  BuilderOutputLike,
+  createBuilder,
+} from '@angular-devkit/architect';
 import { executeBrowserBuilder } from '@angular-devkit/build-angular';
+import { Configuration } from 'webpack';
 import { JsonObject } from '@angular-devkit/core';
 import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
-import { mergeOptions } from '../../custom-builder/utils';
+import { map, switchMap } from 'rxjs/operators';
+import { loadOptions } from '../../custom-builder/utils';
 import {
   CustomWebpackBuilderOptions,
   getTransforms,
 } from '../../custom-builder';
 import { Schema as BrowserBuilderSchema } from '@angular-devkit/build-angular/src/browser/schema';
+import { mergeRxaStylesIntoAngularStyles } from '../../styles-slots/merge-options';
 
-export type CustomWebpackBrowserSchema = BrowserBuilderSchema &
-  CustomWebpackBuilderOptions;
+export type CustomWebpackBrowserSchema = BrowserBuilderSchema & CustomWebpackBuilderOptions;
 
 export function buildCustomWebpackBrowser(
   options: CustomWebpackBrowserSchema,
-  context: any //BuilderContext
+  context: BuilderContext
 ): Observable<BuilderOutputLike> {
-  return mergeOptions(options, context).pipe(
+  return loadOptions(options, context).pipe(
+    map(mergeRxaStylesIntoAngularStyles),
     switchMap((customWebpackOptions) =>
       executeBrowserBuilder(
-        customWebpackOptions,
-        context,
+        options,
+        context as any, // @TODO fix typing
         getTransforms(customWebpackOptions, context)
       )
     )

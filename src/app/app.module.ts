@@ -4,6 +4,8 @@ import {RouterModule} from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { ROUTES } from './app.routes';
+import * as STYLES from './lazy.styles';
+import {RXA_LAZY_STYLES} from './lazy-styles.token';
 
 @NgModule({
   declarations: [
@@ -13,7 +15,12 @@ import { ROUTES } from './app.routes';
     BrowserModule,
     RouterModule.forRoot(ROUTES, { relativeLinkResolution: 'legacy' })
   ],
-  providers: [],
+  providers: [
+    {
+      provide: RXA_LAZY_STYLES,
+      useValue: STYLES
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

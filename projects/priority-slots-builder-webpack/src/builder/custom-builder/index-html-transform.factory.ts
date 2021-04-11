@@ -1,7 +1,7 @@
 import { BuilderContext } from '@angular-devkit/architect';
 import { IndexHtmlTransform } from '@angular-devkit/build-angular/src/utils/index-file/index-html-generator';
 import { indexHtmlTransformFactory as angularCustomIndexHtmlTransformFactory } from './defaults';
-import { indexHtmlTransformFactory as stylesSlotsIndexHtmlTransformFactory } from '../styles-slots';
+import { indexHtmlTransformFactory as rxaStylesIndexHtmlTransformFactory } from '../styles-slots';
 import { CustomWebpackBuilderOptions } from './model';
 
 export const indexHtmlTransformFactory: (
@@ -12,12 +12,12 @@ export const indexHtmlTransformFactory: (
     options,
     context
   );
-  const stylesSlotsTransform = stylesSlotsIndexHtmlTransformFactory(
+  const rxaStylesTransform = rxaStylesIndexHtmlTransformFactory(
     options,
     context
   );
 
   return (indexHtml: string) => {
-    return defaultTransform(indexHtml).then((r) => stylesSlotsTransform(r));
+    return defaultTransform(indexHtml).then((r) => rxaStylesTransform(r));
   };
 };

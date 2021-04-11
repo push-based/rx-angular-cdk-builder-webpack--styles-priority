@@ -4,10 +4,14 @@ import {
   targetFromTargetString,
 } from '@angular-devkit/architect';
 import { JsonObject } from '@angular/compiler-cli/ngcc/src/packages/entry_point';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { hasOwnProperty } from 'tslint/lib/utils';
 import * as fs from 'fs';
+import {resolve as pathResolve} from 'path';
 import { existsSync, readFileSync } from 'fs';
+import { LazyStylesObject } from '../styles-slots/model';
+import { ExtraEntryPointClass } from '@angular-devkit/build-angular/src/browser/schema';
+import { CustomWebpackBuilderOptions, WebpackBuilderSchema } from '../custom-builder';
 
 export function fromTargetOptions(
   context: BuilderContext,
@@ -17,25 +21,26 @@ export function fromTargetOptions(
   return from(context.getTargetOptions(target));
 }
 
-export function mergeOptions<T>(
-  options: T,
+export function loadOptions<T>(
+  options: T & WebpackBuilderSchema,
   context: BuilderContext
-): Observable<T> {
+): Observable<CustomWebpackBuilderOptions> {
   /*
       The way the options are resolved when executing a target is
       - by taking the default options object
       - then overwriting values from the configuration used (if any)
       - browserTarget: options
       - then overwriting values from the Angular CLI overrides object built from command line arguments
-
       This is then validated against the schema of the builder, and only then,
       if valid, the context will be created and the builder itself will execute.
       */
+  return of(options as unknown as CustomWebpackBuilderOptions);
+  /*
   const optionsSourceOverriddenByConsole$ = of(options);
   const optionsRemote$ = optionsSourceOverriddenByConsole$.pipe(
     switchMap((options) => {
       return 'browserTarget' in options
-        ? fromTargetOptions(context, options['browserTarget'])
+        ? fromTargetOptions(context, options['browserTarget'] as string)
         : of({});
     })
   );
@@ -45,9 +50,9 @@ export function mergeOptions<T>(
         (mergeTargetOptions(
           remoteOptions as any,
           sourceOptions as any
-        ) as unknown) as T
+        ) as unknown) as CustomWebpackBuilderOptions
     )
-  );
+  );*/
 }
 
 export function mergeTargetOptions(
@@ -57,7 +62,6 @@ export function mergeTargetOptions(
   replacePlugins = false
 ): { [key: string]: any } {
   const parsedOptionsToApply = Object.entries(targetOptionsApply)
-
     .filter(([_, value]) => value !== undefined)
     .reduce((acc, [key, value]) => ({ ...acc, [key as any]: value }), {});
   const mergedTargetOption = {
@@ -104,10 +108,21 @@ export function readFile(path: string): string {
   return '';
 }
 
+
+
+export function rxaStylesObjectToExtraEntryPoints(lazyStylesObject: LazyStylesObject, defaultBundle: string): string[] {
+  const bundleName = lazyStylesObject.bundleName || defaultBundle;
+  // const entry = { inject: true, bundleName} as ExtraEntryPointClass;
+  const {input} = lazyStylesObject;
+  console.log('lazyStylesObject', lazyStylesObject);
+
+  return typeof input === 'string' ? [input] : input;
+}
+
+
 export function resolveFileContent(path: string): string {
   const fileContent = readFile(path) || '';
-
-  return fileContent;
+  return '.todo-inline-styles-here {}'//fileContent;
 }
 
 /**

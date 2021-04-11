@@ -6,7 +6,7 @@ import {
 } from '@angular-devkit/build-angular';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { mergeOptions } from '../../custom-builder/utils';
+import { loadOptions } from '../../custom-builder/utils';
 import {
   CustomWebpackBuilderOptions,
   getTransforms,
@@ -19,7 +19,7 @@ export const serveCustomWebpackBrowser = (
   options: ExtDevServerBuilderOptions,
   context: any
 ): Observable<DevServerBuilderOutput> => {
-  return mergeOptions(options, context).pipe(
+  return loadOptions(options, context).pipe(
     switchMap((customWebpackOptions: any) =>
       executeDevServerBuilder(
         customWebpackOptions,
@@ -30,7 +30,4 @@ export const serveCustomWebpackBrowser = (
   );
 };
 
-export default createBuilder<
-  ExtDevServerBuilderOptions,
-  DevServerBuilderOutput
->(serveCustomWebpackBrowser);
+export default createBuilder<ExtDevServerBuilderOptions, DevServerBuilderOutput>(serveCustomWebpackBrowser);

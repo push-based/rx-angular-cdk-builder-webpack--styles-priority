@@ -1,0 +1,5 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "description": "Prioritized slots for styles placement in index.html",
+
+}

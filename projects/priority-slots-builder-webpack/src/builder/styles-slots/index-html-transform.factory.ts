@@ -1,6 +1,6 @@
 import { BuilderContext } from '@angular-devkit/architect';
 import { IndexHtmlTransform } from '@angular-devkit/build-angular/src/utils/index-file/index-html-generator';
-import { IndexHtmlTransformOption, StyleSlots } from './model';
+import { IndexHtmlTransformOption, RxaStyle } from './model';
 import { indexHtmlTransform } from './index-html-transform';
 import { defer, from, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -10,30 +10,22 @@ export function indexHtmlTransformFactory(
   options: IndexHtmlTransformOption,
   context: BuilderContext
 ): IndexHtmlTransform {
-  const { stylesSlots, extractCss } = options;
+  const { rxaStyles, extractCss } = options;
   const { target: targetOptions } = context;
-  const usedSlots = Object.keys(stylesSlots);
-  console.log('extractCss', options.extractCss);
-  const filterFiles = (file: string) => (slot: string) =>
+  const usedSlots = Object.keys(rxaStyles);
+
+  const filterFilesFactory = (file: string) => (slot: string) =>
     file.match(`(${slot}?[^\\s]+\\.${extractCss ? 'css' : 'js'})`);
 
   const enrichedTargetOptions$: Observable<IndexHtmlTransformOption> = defer(
     () =>
-      from(
-        context.getTargetOptions(targetOptions) as Promise<{
-          outputPath: string;
-        }>
-      )
+      from(context.getTargetOptions(targetOptions) as Promise<{ outputPath: string; }>)
   ).pipe(
     map(
       ({ outputPath }): IndexHtmlTransformOption => {
-        console.log(
-          'new slots: ',
-          getStylesSlots(outputPath, usedSlots, filterFiles)
-        );
         return {
           ...options,
-          stylesSlots: getStylesSlots(outputPath, usedSlots, filterFiles),
+          rxaStyles: getRxaStyles(outputPath, usedSlots, filterFilesFactory),
         } as IndexHtmlTransformOption;
       }
     )
@@ -43,15 +35,19 @@ export function indexHtmlTransformFactory(
   };
 }
 
-function getStylesSlots(
+function getRxaStyles(
   outputPath: string,
   usedSlots: string[],
-  filterFiles: (file: string) => (slot: string) => RegExpMatchArray
+  filterFilesFactory: (file: string) => (slot: string) => RegExpMatchArray
 ) {
+
   return readDir(outputPath)
-    .filter((file) => usedSlots.some(filterFiles))
-    .reduce((slots: StyleSlots, file: string): StyleSlots => {
+    .filter((file) => {
+      return usedSlots.some(filterFilesFactory(file))
+    })
+    .reduce((slots: RxaStyle, file: string): RxaStyle => {
+      //
       slots[file.split('.').shift()] = file;
       return slots;
-    }, {} as StyleSlots);
+    }, {} as RxaStyle);
 }

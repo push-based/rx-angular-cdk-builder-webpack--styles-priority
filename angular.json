@@ -14,7 +14,7 @@
       "sourceRoot": "src",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@rx-angular/builder-webpack:browser",
           "options": {
             "outputPath": "dist/rx-angular-cdk-builder-webpack-styles-slots",
             "index": "src/index.html",
@@ -26,23 +26,37 @@
               "src/favicon.ico",
               "src/assets"
             ],
-            "styles": [
-              {
-                "input": "src/app/lazy-css-demo/lazy-markdown-styles.scss",
-                "bundleName": "lazy-markdown-styles",
-                "inject": false
-              },
-              {
-                "input": "src/app/lazy-css-demo/lazy-prefetch-markdown-styles.scss",
-                "bundleName": "lazy-prefetch-markdown-styles",
-                "inject": false
-              },
-              "src/styles/styles.scss",
-              "src/styles/critical.scss",
-              "src/styles/stylesheet.scss",
-              "src/styles/preload.scss",
-              "src/styles/prefetch.scss"
-            ],
+            "styles": [],
+            "rxaStyles": {
+              "base": [
+                {
+                  "input": [
+                    "src/app/lazy-css-demo/lazy-prefetch-markdown-styles.scss",
+                    "src/styles/prefetch.scss"
+                  ]
+                },
+                {
+                  "input": [
+                    "src/styles/preload.scss"
+                  ]
+                }
+              ],
+              "notInjected": [
+                {
+                  "input": [
+                    "src/app/lazy-css-demo/lazy-prefetch-markdown-styles.scss",
+                    "src/styles/prefetch.scss"
+                  ],
+                  "bundleName": "quill"
+                },
+                {
+                  "input": [
+                    "src/styles/prefetch.scss"
+                  ],
+                  "bundleName": "highlight"
+                }
+              ]
+            },
             "scripts": []
           },
           "configurations": {
@@ -77,7 +91,7 @@
           }
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@rx-angular/builder-webpack:dev-server",
           "options": {
             "browserTarget": "rx-angular-cdk-builder-webpack-styles-slots:build"
           },

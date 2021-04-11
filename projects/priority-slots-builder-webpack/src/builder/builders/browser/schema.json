@@ -3,22 +3,34 @@
   "id": "BuildCustomWebpackBrowserSchema",
   "description": "Browser target options",
   "properties": {
-    "stylesSlots": {
+    "rxaStyles": {
+      "$rel": "#definitions/rxaStyles"
+    }
+  },
+  "definitions": {
+    "rxaStyles": {
       "type": "object",
       "description": "Prioritized slots for styles placement in index.html",
       "anyOf": [
         {
           "properties": {
-            "critical": {
+            "base": {
               "type": "array",
               "description": "The render critical inlined css of the application",
               "default": [],
               "items": {
-                "type": "string",
-                "description": "Path to css file"
+                "$rel": "#definitions/eagerStylesheetObject"
               }
             },
-            "stylesheet": {
+            "aboveTheFold": {
+              "type": "array",
+              "description": "The render critical inlined css of the application",
+              "default": [],
+              "items": {
+                "$rel": "#definitions/eagerStylesheetObject"
+              }
+            },
+            "thirdParty": {
               "type": "array",
               "description": "@TODO: ATM this is angulars default (render-blocking) way. Should alert if no above the fold is used?",
               "default": [],
@@ -27,23 +39,60 @@
                 "description": "Path to css file"
               }
             },
-            "preload": {
+            "main": {
               "type": "array",
               "description": "The css which has high-confidence to be used in the current page",
               "default": [],
               "items": {
-                "type": "string",
-                "description": "Path to css file"
+                "$rel": "#definitions/eagerStylesheetObject"
               }
             },
-            "prefetch": {
+            "lowPrio": {
               "type": "array",
               "description": "The css which is likely to be used for future navigations across multiple navigation boundaries",
               "default": [],
               "items": {
-                "type": "string",
-                "description": "Path to css file"
+                "$rel": "#definitions/eagerStylesheetObject"
               }
+            }
+          },
+          "notInjected": {
+            "type": "array",
+            "description": "A list of separately bundled files pre-loaded/fetched at runtime",
+            "default": [],
+            "items": {
+              "$rel": "#definitions/lazyStylesheetObject"
+            }
+          }
+        }
+      ]
+    },
+    "eagerStylesheetObject": {
+      "properties": {
+        "bundleName": {
+          "type": "string",
+          "description": "name of bundle file"
+        },
+        "input": {
+          "type": "array",
+          "description": "List of files that will end um in the named bundle",
+          "items": {
+            "type": "string",
+            "description": "Path to css file"
+          }
+        }
+      }
+    },
+    "lazyStylesheetObject": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/eagerStylesheetObject"
+        },
+        {
+          "properties": {
+            "priority": {
+              "type": "string",
+              "description": "Browser standard based priority of the styles"
             }
           }
         }
